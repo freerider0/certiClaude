@@ -1,0 +1,128 @@
+{
+  "common": {
+    "loading": "Cargando...",
+    "save": "Gardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "edit": "Editar",
+    "create": "Crear",
+    "search": "Buscar",
+    "filter": "Filtrar",
+    "back": "Volver",
+    "next": "Seguinte",
+    "previous": "Anterior",
+    "confirm": "Confirmar",
+    "error": "Erro",
+    "success": "Éxito",
+    "warning": "Advertencia"
+  },
+  "auth": {
+    "login": "Iniciar sesión",
+    "logout": "Pechar sesión",
+    "email": "Correo electrónico",
+    "password": "Contrasinal",
+    "forgotPassword": "Esqueciches o contrasinal?",
+    "signUp": "Rexistrarse",
+    "signIn": "Entrar",
+    "alreadyHaveAccount": "Xa tes unha conta?",
+    "dontHaveAccount": "Non tes unha conta?"
+  },
+  "nav": {
+    "dashboard": "Panel",
+    "properties": "Propiedades",
+    "orders": "Pedidos",
+    "documents": "Documentos",
+    "settings": "Configuración",
+    "profile": "Perfil",
+    "billing": "Facturación",
+    "customers": "Clientes",
+    "earnings": "Ganancias",
+    "myPricing": "Os Meus Prezos",
+    "reports": "Informes",
+    "features": "Características",
+    "pricing": "Prezos",
+    "about": "Sobre nós",
+    "contact": "Contacto",
+    "masterDashboard": "Panel Mestre",
+    "agencyManagement": "Xestión de Axencias",
+    "propertyDatabase": "Base de Datos de Propiedades",
+    "orderControl": "Control de Pedidos",
+    "financialManagement": "Xestión Financeira",
+    "revenueDashboard": "Panel de Ingresos",
+    "billingOperations": "Operacións de Facturación",
+    "payoutManagement": "Xestión de Pagos",
+    "financialReports": "Informes Financeiros",
+    "serviceCatalog": "Catálogo de Servizos",
+    "providerNetwork": "Rede de Provedores",
+    "businessIntelligence": "Intelixencia de Negocio",
+    "systemAdministration": "Administración do Sistema",
+    "platformSettings": "Configuración da Plataforma",
+    "userManagement": "Xestión de Usuarios",
+    "integrations": "Integracións",
+    "security": "Seguridade",
+    "developerTools": "Ferramentas de Desenvolvemento"
+  },
+  "home": {
+    "title": "CertiFast",
+    "subtitle": "Plataforma profesional para axencias inmobiliarias",
+    "description": "Xera certificados enerxéticos e crea planos profesionais."
+  },
+  "agencyDashboard": {
+    "stats": {
+      "revenue": "Ingresos Totais",
+      "activeProperties": "Propiedades Activas",
+      "pendingOrders": "Pedidos Pendentes",
+      "totalCustomers": "Total de Clientes",
+      "thisMonth": "Este mes",
+      "currentlyManaged": "Actualmente xestionadas",
+      "awaitingCompletion": "Agardando finalización",
+      "activeClients": "Clientes activos",
+      "fromLastMonth": "dende o mes pasado"
+    },
+    "recentOrders": {
+      "title": "Pedidos Recentes",
+      "description": "As túas últimas solicitudes de servizo",
+      "noOrders": "Non hai pedidos recentes para amosar",
+      "createOrder": "Crear Novo Pedido",
+      "viewAll": "Ver todos",
+      "commission": "Comisión: {{amount}}"
+    },
+    "orderStatus": {
+      "pending": "Pendente",
+      "inProgress": "En Progreso",
+      "completed": "Completado",
+      "delivered": "Entregado"
+    },
+    "services": {
+      "cee_certificate": "Certificado CEE",
+      "photography": "Fotografía",
+      "videography": "Videografía",
+      "virtual_tour": "Tour Virtual",
+      "floor_plan": "Plano"
+    },
+    "earnings": {
+      "title": "Ganancias",
+      "description": "O teu rendemento de comisións dos últimos 6 meses",
+      "totalEarnings": "Ganancias Totais",
+      "paid": "Pagado",
+      "pending": "Pendente",
+      "total": "Total",
+      "lineChart": "Gráfico de Liñas",
+      "barChart": "Gráfico de Barras"
+    },
+    "commission": {
+      "title": "Resumo de Comisións",
+      "description": "As túas ganancias do modelo de facturación white-label",
+      "rate": "taxa de comisión",
+      "monthlyProgress": "Progreso Mensual",
+      "paid": "Pagado",
+      "pending": "Pendente",
+      "processing": "Procesando",
+      "nextPayout": "Próximo Pago",
+      "topServices": "Servizos Principais",
+      "orders": "pedidos",
+      "viewDetails": "Ver Detalles",
+      "managePricing": "Xestionar Prezos"
+    }
+  }
+}

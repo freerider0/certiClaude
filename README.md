@@ -1,36 +1,123 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# CertiFast
 
-## Getting Started
+Plataforma profesional para agencias inmobiliarias. Genera certificados CEE y crea planos profesionales.
 
-First, run the development server:
+## 🚀 Tech Stack
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Framework**: Next.js 15 (App Router)
+- **Language**: TypeScript
+- **Styling**: Tailwind CSS v4
+- **UI Components**: shadcn/ui
+- **Authentication**: Supabase Auth
+- **Database**: Supabase (PostgreSQL)
+- **Storage**: Supabase Storage
+- **Internationalization**: next-intl
+- **Drawing Engine**: Konva.js + WASM (Boost.Geometry)
+- **Payments**: Stripe
+- **State Management**: Zustand (drawing tool), React Query (server state)
+- **Forms**: React Hook Form + Zod
+
+## 🌍 Supported Languages
+
+- 🇪🇸 Español (default)
+- Català
+- Euskera
+- Galego
+
+## 📁 Project Structure
+
+```
+src/
+├── app/
+│   └── [locale]/          # Internationalized routes
+│       ├── layout.tsx
+│       ├── page.tsx
+│       └── dashboard/
+├── components/
+│   ├── ui/               # shadcn/ui components
+│   ├── layout/           # Layout components
+│   ├── property/         # Property-related components
+│   ├── drawing/          # Drawing tool components
+│   ├── order/            # Order management components
+│   └── auth/             # Authentication components
+├── i18n/                 # Internationalization config
+│   ├── routing.ts
+│   ├── navigation.ts
+│   └── request.ts
+├── lib/
+│   └── supabase/         # Supabase utilities
+└── messages/             # Translation files
+    ├── es.json
+    ├── ca.json
+    ├── eu.json
+    └── gl.json
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Setup
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+1. Clone the repository
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. Copy the environment variables:
+   ```bash
+   cp .env.local.example .env.local
+   ```
 
-## Learn More
+4. Fill in your environment variables:
+   - Supabase project URL and keys
+   - Stripe keys
+   - App URL
 
-To learn more about Next.js, take a look at the following resources:
+5. Run the development server:
+   ```bash
+   npm run dev
+   ```
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🔑 Environment Variables
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+```env
+# Supabase
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+SUPABASE_SERVICE_ROLE_KEY=
 
-## Deploy on Vercel
+# Stripe
+STRIPE_SECRET_KEY=
+STRIPE_WEBHOOK_SECRET=
+NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY=
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# App
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## 📦 Key Features
+
+- **CEE Certificate Generation**: Professional energy certificate creation
+- **Floor Plan Drawing**: Advanced drawing tool with WASM-powered geometry engine
+- **Multi-language Support**: Full support for Spanish regional languages
+- **Agency Management**: Comprehensive tools for real estate agencies
+- **Secure Authentication**: Supabase Auth with row-level security
+- **Payment Processing**: Integrated Stripe payments
+
+## 🏗️ Development
+
+```bash
+# Run development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Run production server
+npm start
+
+# Run linting
+npm run lint
+```
+
+## 📝 License
+
+Private - All rights reserved

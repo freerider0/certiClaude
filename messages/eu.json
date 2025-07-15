@@ -1,0 +1,128 @@
+{
+  "common": {
+    "loading": "Kargatzen...",
+    "save": "Gorde",
+    "cancel": "Utzi",
+    "delete": "Ezabatu",
+    "edit": "Editatu",
+    "create": "Sortu",
+    "search": "Bilatu",
+    "filter": "Iragazi",
+    "back": "Atzera",
+    "next": "Hurrengoa",
+    "previous": "Aurrekoa",
+    "confirm": "Berretsi",
+    "error": "Errorea",
+    "success": "Arrakasta",
+    "warning": "Abisua"
+  },
+  "auth": {
+    "login": "Saioa hasi",
+    "logout": "Saioa itxi",
+    "email": "Posta elektronikoa",
+    "password": "Pasahitza",
+    "forgotPassword": "Pasahitza ahaztu duzu?",
+    "signUp": "Erregistratu",
+    "signIn": "Sartu",
+    "alreadyHaveAccount": "Kontu bat duzu jada?",
+    "dontHaveAccount": "Ez duzu konturik?"
+  },
+  "nav": {
+    "dashboard": "Aginte-panela",
+    "properties": "Jabetzak",
+    "orders": "Eskaerak",
+    "documents": "Dokumentuak",
+    "settings": "Ezarpenak",
+    "profile": "Profila",
+    "billing": "Fakturazioa",
+    "customers": "Bezeroak",
+    "earnings": "Irabaziak",
+    "myPricing": "Nire Prezioak",
+    "reports": "Txostenak",
+    "features": "Ezaugarriak",
+    "pricing": "Prezioak",
+    "about": "Guri buruz",
+    "contact": "Kontaktua",
+    "masterDashboard": "Panel Nagusia",
+    "agencyManagement": "Agentzien Kudeaketa",
+    "propertyDatabase": "Jabetzen Datu-basea",
+    "orderControl": "Eskaeren Kontrola",
+    "financialManagement": "Finantza Kudeaketa",
+    "revenueDashboard": "Diru-sarreren Panela",
+    "billingOperations": "Fakturazio Eragiketak",
+    "payoutManagement": "Ordainketen Kudeaketa",
+    "financialReports": "Finantza Txostenak",
+    "serviceCatalog": "Zerbitzu Katalogoa",
+    "providerNetwork": "Hornitzaileen Sarea",
+    "businessIntelligence": "Negozio Adimena",
+    "systemAdministration": "Sistemaren Administrazioa",
+    "platformSettings": "Plataformaren Ezarpenak",
+    "userManagement": "Erabiltzaileen Kudeaketa",
+    "integrations": "Integrazioak",
+    "security": "Segurtasuna",
+    "developerTools": "Garatzaile Tresnak"
+  },
+  "home": {
+    "title": "CertiFast",
+    "subtitle": "Higiezinen agentzientzako plataforma profesionala",
+    "description": "Energia ziurtagiriak sortu eta plano profesionalak egin."
+  },
+  "agencyDashboard": {
+    "stats": {
+      "revenue": "Diru-sarrerak Guztira",
+      "activeProperties": "Jabetza Aktiboak",
+      "pendingOrders": "Eskaera Zain",
+      "totalCustomers": "Bezero Guztira",
+      "thisMonth": "Hilabete honetan",
+      "currentlyManaged": "Gaur egun kudeatuak",
+      "awaitingCompletion": "Amaieraren zain",
+      "activeClients": "Bezero aktiboak",
+      "fromLastMonth": "aurreko hilabetetik"
+    },
+    "recentOrders": {
+      "title": "Azken Eskaerak",
+      "description": "Zure azken zerbitzu eskaerak",
+      "noOrders": "Ez dago azken eskaerarik erakusteko",
+      "createOrder": "Eskaera Berria Sortu",
+      "viewAll": "Ikusi guztiak",
+      "commission": "Komisioa: {{amount}}"
+    },
+    "orderStatus": {
+      "pending": "Zain",
+      "inProgress": "Abian",
+      "completed": "Amaituta",
+      "delivered": "Entregatua"
+    },
+    "services": {
+      "cee_certificate": "CEE Ziurtagiria",
+      "photography": "Argazkigintza",
+      "videography": "Bideogintza",
+      "virtual_tour": "Tour Birtuala",
+      "floor_plan": "Planoa"
+    },
+    "earnings": {
+      "title": "Irabaziak",
+      "description": "Azken 6 hilabeteetako komisioen errendimendua",
+      "totalEarnings": "Irabazi Guztira",
+      "paid": "Ordainduta",
+      "pending": "Zain",
+      "total": "Guztira",
+      "lineChart": "Lerro Grafikoa",
+      "barChart": "Barra Grafikoa"
+    },
+    "commission": {
+      "title": "Komisioen Laburpena",
+      "description": "White-label fakturazio ereduko zure irabaziak",
+      "rate": "komisio tasa",
+      "monthlyProgress": "Hileko Aurrerapena",
+      "paid": "Ordainduta",
+      "pending": "Zain",
+      "processing": "Prozesatzen",
+      "nextPayout": "Hurrengo Ordainketa",
+      "topServices": "Zerbitzu Nagusiak",
+      "orders": "eskaerak",
+      "viewDetails": "Ikusi Xehetasunak",
+      "managePricing": "Prezioak Kudeatu"
+    }
+  }
+}
