@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/com
 import { Building2, DollarSign, Package, TrendingUp, Users, Activity } from 'lucide-react';
 
 export default function AdminDashboardPage() {
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const t = useTranslations('adminDashboard');
 
   const stats = [

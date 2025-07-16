@@ -1,10 +1,11 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslations } from 'next-intl';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from '@/i18n/navigation';
+import { useSearchParams } from 'next/navigation';
 import * as z from 'zod';
 import { Button } from '@/components/ui/button';
 import {
@@ -33,6 +34,7 @@ type LoginFormValues = z.infer<typeof loginSchema>;
 export function LoginForm() {
   const t = useTranslations('auth');
   const router = useRouter();
+  const searchParams = useSearchParams();
   const supabase = useSupabase();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -44,6 +46,32 @@ export function LoginForm() {
       password: '',
     },
   });
+
+  // Check for OAuth errors in URL parameters
+  useEffect(() => {
+    const oauthError = searchParams.get('error');
+    const oauthMessage = searchParams.get('message');
+    
+    if (oauthError) {
+      const errorMessages: Record<string, string> = {
+        oauth_failed: 'OAuth authentication failed. Please try again.',
+        oauth_invalid: 'Invalid OAuth response received.',
+        oauth_exchange_failed: 'Failed to complete OAuth authentication.',
+        oauth_no_session: 'OAuth session could not be established.',
+        oauth_error: 'An error occurred during OAuth authentication.',
+        oauth_timeout: 'OAuth authentication timed out.'
+      };
+      
+      const displayMessage = oauthMessage || errorMessages[oauthError] || 'OAuth authentication failed';
+      setError(displayMessage);
+      
+      // Clean up URL parameters
+      const url = new URL(window.location.href);
+      url.searchParams.delete('error');
+      url.searchParams.delete('message');
+      window.history.replaceState({}, document.title, url.toString());
+    }
+  }, [searchParams]);
 
   const onSubmit = async (data: LoginFormValues) => {
     setIsLoading(true);
@@ -63,19 +91,8 @@ export function LoginForm() {
         throw new Error('Failed to sign in');
       }
 
-      // Check if user has completed their profile
-      const { data: profile } = await supabase
-        .from('profiles')
-        .select('agency_id, full_name')
-        .eq('id', authData.user.id)
-        .single();
-
-      // Redirect based on profile completion
-      if (!profile?.agency_id) {
-        router.push('/onboarding');
-      } else {
-        router.push('/dashboard');
-      }
+      // After successful login, reload the page to let server-side auth handle redirect
+      router.refresh();
 
     } catch (error: any) {
       console.error('Login error:', error);

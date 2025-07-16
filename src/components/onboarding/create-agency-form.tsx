@@ -7,17 +7,18 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { ChevronLeft, Loader2 } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { BackButton } from './back-button';
 
 interface CreateAgencyFormProps {
   userId: string;
   userEmail: string;
-  onBack: () => void;
+  locale: string;
 }
 
-export function CreateAgencyForm({ userId, userEmail, onBack }: CreateAgencyFormProps) {
+export function CreateAgencyForm({ userId, userEmail, locale }: CreateAgencyFormProps) {
   const router = useRouter();
   const t = useTranslations('onboarding');
   const tCommon = useTranslations('common');
@@ -67,10 +68,8 @@ export function CreateAgencyForm({ userId, userEmail, onBack }: CreateAgencyForm
         description: t('redirectingToDashboard'),
       });
 
-      // Redirect to agency dashboard
-      setTimeout(() => {
-        router.push('/agency/dashboard');
-      }, 1500);
+      // Redirect to dashboard
+      router.push('/agency/dashboard' );
     } catch (error) {
       toast.error(error instanceof Error ? error.message : 'Failed to create agency');
     } finally {
@@ -86,14 +85,7 @@ export function CreateAgencyForm({ userId, userEmail, onBack }: CreateAgencyForm
     <Card>
       <CardHeader>
         <div className="flex items-center gap-2 mb-2">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onBack}
-            disabled={isLoading}
-          >
-            <ChevronLeft className="h-4 w-4" />
-          </Button>
+          <BackButton disabled={isLoading} />
           <CardTitle>{t('createAgency')}</CardTitle>
         </div>
         <CardDescription>

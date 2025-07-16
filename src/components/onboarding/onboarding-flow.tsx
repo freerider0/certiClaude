@@ -1,24 +1,21 @@
-'use client';
-
-import { useState } from 'react';
-import { useTranslations } from 'next-intl';
+import { getTranslations } from 'next-intl/server';
 import { Card } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
 import { Building2, Users } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { CreateAgencyForm } from './create-agency-form';
+import { CreateAgencyFormServer } from './create-agency-form-server';
 import { JoinAgencyForm } from './join-agency-form';
+import { StepNavigation } from './step-navigation';
 
 type OnboardingStep = 'choose' | 'create-agency' | 'join-agency';
 
 interface OnboardingFlowProps {
   userId: string;
   userEmail: string;
+  step: OnboardingStep;
 }
 
-export function OnboardingFlow({ userId, userEmail }: OnboardingFlowProps) {
-  const [step, setStep] = useState<OnboardingStep>('choose');
-  const t = useTranslations('onboarding');
+export async function OnboardingFlow({ userId, userEmail, step }: OnboardingFlowProps) {
+  const t = await getTranslations('onboarding');
 
   return (
     <div className="container max-w-2xl mx-auto py-16 px-4">
@@ -58,10 +55,7 @@ export function OnboardingFlow({ userId, userEmail }: OnboardingFlowProps) {
           
           <div className="grid md:grid-cols-2 gap-6">
             {/* Create new agency option */}
-            <Card 
-              className="p-6 cursor-pointer hover:border-primary transition-colors"
-              onClick={() => setStep('create-agency')}
-            >
+            <Card className="p-6">
               <div className="text-center space-y-4">
                 <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
                   <Building2 className="w-8 h-8 text-primary" />
@@ -70,17 +64,12 @@ export function OnboardingFlow({ userId, userEmail }: OnboardingFlowProps) {
                 <p className="text-sm text-muted-foreground">
                   {t('createAgencyDescription')}
                 </p>
-                <Button className="w-full">
-                  {t('createAgency')}
-                </Button>
+                <StepNavigation step="create-agency" label={t('createAgency')} variant="default" />
               </div>
             </Card>
 
             {/* Join existing agency option */}
-            <Card 
-              className="p-6 cursor-pointer hover:border-primary transition-colors"
-              onClick={() => setStep('join-agency')}
-            >
+            <Card className="p-6">
               <div className="text-center space-y-4">
                 <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
                   <Users className="w-8 h-8 text-primary" />
@@ -89,9 +78,7 @@ export function OnboardingFlow({ userId, userEmail }: OnboardingFlowProps) {
                 <p className="text-sm text-muted-foreground">
                   {t('joinAgencyDescription')}
                 </p>
-                <Button className="w-full" variant="outline">
-                  {t('joinAgency')}
-                </Button>
+                <StepNavigation step="join-agency" label={t('joinAgency')} variant="outline" />
               </div>
             </Card>
           </div>
@@ -99,17 +86,15 @@ export function OnboardingFlow({ userId, userEmail }: OnboardingFlowProps) {
       )}
 
       {step === 'create-agency' && (
-        <CreateAgencyForm 
+        <CreateAgencyFormServer 
           userId={userId}
           userEmail={userEmail}
-          onBack={() => setStep('choose')}
         />
       )}
 
       {step === 'join-agency' && (
         <JoinAgencyForm 
           userId={userId}
-          onBack={() => setStep('choose')}
         />
       )}
     </div>

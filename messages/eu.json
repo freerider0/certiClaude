@@ -25,7 +25,10 @@
     "signUp": "Erregistratu",
     "signIn": "Sartu",
     "alreadyHaveAccount": "Kontu bat duzu jada?",
-    "dontHaveAccount": "Ez duzu konturik?"
+    "dontHaveAccount": "Ez duzu konturik?",
+    "authError": "Autentifikazio Errorea",
+    "authErrorDescription": "Arazo bat egon da saioa hastean. Mesedez, saiatu berriro.",
+    "backToLogin": "Itzuli saio hasierara"
   },
   "nav": {
     "dashboard": "Aginte-panela",
@@ -65,7 +68,22 @@
   "home": {
     "title": "CertiFast",
     "subtitle": "Higiezinen agentzientzako plataforma profesionala",
-    "description": "Energia ziurtagiriak sortu eta plano profesionalak egin."
+    "description": "Energia ziurtagiriak sortu eta plano profesionalak egin.",
+    "features": {
+      "ceeGeneration": "CEE ziurtagirien sorkuntza ofiziala",
+      "floorPlans": "Plano profesionalen sorrera",
+      "automatedReports": "Txostenen sorkuntza automatizatua",
+      "multiLanguage": "Hizkuntza anitzeko euskarria"
+    },
+    "testimonial": {
+      "quote": "CertiFast-ek gure ziurtagiri prozesua irauliarazi du. Egun hartzeko zena orain minutu batzuk dira.",
+      "author": "María González",
+      "company": "Zuzendaria, Inmobiliaria Barcelona"
+    },
+    "cta": {
+      "getStarted": "Hasi",
+      "learnMore": "Gehiago ikasi"
+    }
   },
   "agencyDashboard": {
     "stats": {
@@ -124,5 +142,33 @@
       "viewDetails": "Ikusi Xehetasunak",
       "managePricing": "Prezioak Kudeatu"
     }
+  },
+  "onboarding": {
+    "welcome": "Ongi etorri CertiFast-era",
+    "getStarted": "Zure agentzia konfiguratu dezagun",
+    "howToProceed": "Nola jarraitu nahi duzu?",
+    "createAgency": "Agentzia Berria Sortu",
+    "createAgencyDescription": "Hutsetik hasi zure agentzia propioarekin eta taldeko kideak gonbidatu",
+    "joinAgency": "Dagoen Agentziari Batu",
+    "joinAgencyDescription": "Agentzia batera batu zure administratzailearen gonbidapen kode bat erabiliz",
+    "agencyInfo": "Agentziaren Informazioa",
+    "agencyName": "Agentziaren Izena",
+    "contactPhone": "Kontaktu Telefonoa",
+    "address": "Helbidea",
+    "streetAddress": "Helbidea",
+    "city": "Hiria",
+    "postalCode": "Posta Kodea",
+    "province": "Probintzia",
+    "creatingAgency": "Agentzia Sortzen...",
+    "agencyCreated": "Agentzia arrakastaz sortu da!",
+    "redirectingToDashboard": "Zure aginte-panelera birbideratzen...",
+    "invitationCode": "Gonbidapen Kodea",
+    "enterInviteCode": "Sartu 6 zifrako kodea",
+    "askAdminForCode": "Eskatu zure agentziaren administratzaileari gonbidapen kode bat. Bat sor dezakete haien ezarpenetatik.",
+    "joiningAgency": "Agentziari Batzen...",
+    "joinedAgency": "Arrakastaz batu zara agentziari!",
+    "welcomeToAgency": "Ongi etorri hona:",
+    "invalidInviteCode": "Gonbidapen kode baliogabea",
+    "alreadyMember": "Jada agentzia honen kidea zara"
   }
 }

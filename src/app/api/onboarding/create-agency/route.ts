@@ -9,6 +9,16 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
 export async function POST(request: Request) {
   try {
     const supabase = await createClient();
+    
+    // Verify user authentication
+    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    if (authError || !user) {
+      return NextResponse.json(
+        { error: 'Unauthorized' },
+        { status: 401 }
+      );
+    }
+    
     const body = await request.json();
 
     const {
@@ -27,6 +37,14 @@ export async function POST(request: Request) {
       );
     }
 
+    // Verify userId matches authenticated user
+    if (userId !== user.id) {
+      return NextResponse.json(
+        { error: 'User ID mismatch' },
+        { status: 403 }
+      );
+    }
+
     // Start transaction
     // Create Stripe customer
     const stripeCustomer = await stripe.customers.create({
@@ -41,6 +59,7 @@ export async function POST(request: Request) {
     const { data: agency, error: agencyError } = await supabase
       .from('agencies')
       .insert({
+        profile_id: userId, // This is required by the schema
         name: agencyName,
         contact_email: contactEmail,
         contact_phone: contactPhone,
@@ -58,30 +77,29 @@ export async function POST(request: Request) {
     }
 
     // Create agency_users relationship (owner role)
-    const { error: agencyUserError } = await supabase
+    const { data: agencyUser, error: agencyUserError } = await supabase
       .from('agency_users')
       .insert({
         agency_id: agency.id,
         user_id: userId,
         role: 'owner',
-      });
+      })
+      .select()
+      .single();
 
     if (agencyUserError) {
-      throw agencyUserError;
+      console.error('Failed to create agency_users association:', agencyUserError);
+      // Try to cleanup the created agency
+      await supabase
+        .from('agencies')
+        .delete()
+        .eq('id', agency.id);
+      await stripe.customers.del(stripeCustomer.id);
+      throw new Error('Failed to create agency association. Please try again.');
     }
 
-    // Update user profile with agency_id
-    const { error: profileError } = await supabase
-      .from('profiles')
-      .update({ 
-        agency_id: agency.id,
-        role: 'agency' 
-      })
-      .eq('id', userId);
-
-    if (profileError) {
-      throw profileError;
-    }
+    // No need to update profiles table as it no longer exists
+    // Agency association is handled by agency_users table
 
     return NextResponse.json({
       success: true,

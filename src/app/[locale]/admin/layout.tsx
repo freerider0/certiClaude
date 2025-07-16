@@ -1,5 +1,5 @@
 import { DashboardLayout } from '@/components/layout/dashboard-layout';
-import { adminNavItems, type NavItem } from '@/config/navigation/admin-nav';
+import { adminNavItems } from '@/config/navigation/admin-nav';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from '@/i18n/navigation';
 
@@ -16,22 +16,33 @@ export default async function AdminLayout({
     redirect('/auth/login');
   }
 
-  // Get user profile with role
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('full_name, avatar_url, role')
-    .eq('id', user.id)
+  // Check if user is admin by querying admin_users table
+  const { data: adminUser } = await supabase
+    .from('admin_users')
+    .select('user_id')
+    .eq('user_id', user.id)
     .single();
 
-  // Check if user is admin
-  if (profile?.role !== 'admin') {
-    redirect('/dashboard');
+  if (!adminUser) {
+    // Check if user has an agency association
+    const { data: agencyUser } = await supabase
+      .from('agency_users')
+      .select('agency_id')
+      .eq('user_id', user.id)
+      .limit(1)
+      .maybeSingle();
+
+    if (agencyUser?.agency_id) {
+      redirect('/agency/dashboard');
+    } else {
+      redirect('/auth/login');
+    }
   }
 
   const userData = {
-    name: profile?.full_name || user.email?.split('@')[0] || 'Admin',
+    name: user.user_metadata?.full_name || user.email?.split('@')[0] || 'Admin',
     email: user.email || '',
-    image: profile?.avatar_url || undefined,
+    image: user.user_metadata?.avatar_url || undefined,
   };
 
   return (

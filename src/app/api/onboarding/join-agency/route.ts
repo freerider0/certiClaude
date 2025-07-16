@@ -68,18 +68,8 @@ export async function POST(request: Request) {
       throw agencyUserError;
     }
 
-    // Update user profile with agency_id
-    const { error: profileError } = await supabase
-      .from('profiles')
-      .update({ 
-        agency_id: agency.id,
-        role: 'agent' 
-      })
-      .eq('id', userId);
-
-    if (profileError) {
-      throw profileError;
-    }
+    // No need to update profiles table as it no longer exists
+    // Agency association is handled by agency_users table
 
     return NextResponse.json({
       success: true,

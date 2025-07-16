@@ -58,7 +58,10 @@
     "createAccountButton": "Crear compte",
     "creatingAccount": "Creant compte...",
     "registrationSuccessful": "Registre exitós!",
-    "verificationEmailSent": "T'hem enviat un email de confirmació. Si us plau revisa la teva safata d'entrada i fes clic a l'enllaç de verificació."
+    "verificationEmailSent": "T'hem enviat un email de confirmació. Si us plau revisa la teva safata d'entrada i fes clic a l'enllaç de verificació.",
+    "authError": "Error d'autenticació",
+    "authErrorDescription": "Hi ha hagut un problema en iniciar la sessió. Si us plau, torna-ho a intentar.",
+    "backToLogin": "Tornar a l'inici de sessió"
   },
   "nav": {
     "dashboard": "Tauler",
@@ -187,5 +190,33 @@
       "viewDetails": "Veure Detalls",
       "managePricing": "Gestionar Preus"
     }
+  },
+  "onboarding": {
+    "welcome": "Benvingut a CertiFast",
+    "getStarted": "Configurem la teva agència",
+    "howToProceed": "Com vols continuar?",
+    "createAgency": "Crear Nova Agència",
+    "createAgencyDescription": "Comença des de zero amb la teva pròpia agència i convida membres de l'equip",
+    "joinAgency": "Unir-se a Agència Existent",
+    "joinAgencyDescription": "Uneix-te a una agència utilitzant un codi d'invitació del teu administrador",
+    "agencyInfo": "Informació de l'Agència",
+    "agencyName": "Nom de l'Agència",
+    "contactPhone": "Telèfon de Contacte",
+    "address": "Adreça",
+    "streetAddress": "Adreça",
+    "city": "Ciutat",
+    "postalCode": "Codi Postal",
+    "province": "Província",
+    "creatingAgency": "Creant Agència...",
+    "agencyCreated": "Agència creada amb èxit!",
+    "redirectingToDashboard": "Redirigint al teu tauler de control...",
+    "invitationCode": "Codi d'Invitació",
+    "enterInviteCode": "Introdueix el codi de 6 dígits",
+    "askAdminForCode": "Demana al teu administrador d'agència un codi d'invitació. Poden generar-ne un des de la seva configuració.",
+    "joiningAgency": "Unint-se a l'Agència...",
+    "joinedAgency": "T'has unit a l'agència amb èxit!",
+    "welcomeToAgency": "Benvingut a",
+    "invalidInviteCode": "Codi d'invitació invàlid",
+    "alreadyMember": "Ja ets membre d'aquesta agència"
   }
 }

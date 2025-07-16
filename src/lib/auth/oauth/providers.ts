@@ -1,5 +1,3 @@
-import { ComponentType } from 'react';
-
 export interface OAuthProvider {
   id: string;
   name: string;

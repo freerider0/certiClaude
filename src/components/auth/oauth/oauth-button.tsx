@@ -4,7 +4,6 @@ import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { Button } from '@/components/ui/button';
 import { OAuthProvider } from '@/lib/auth/oauth/providers';
-import { initiateOAuthFlow } from '@/lib/auth/supabase-oauth';
 import { 
   GoogleIcon, 
   LinkedInIcon, 
@@ -26,8 +25,6 @@ interface OAuthButtonProps {
   mode: 'login' | 'signup';
   variant?: 'default' | 'outline';
   showFeatures?: boolean;
-  onSuccess?: () => void;
-  onError?: (error: string) => void;
   className?: string;
 }
 
@@ -48,8 +45,6 @@ export function OAuthButton({
   mode,
   variant = 'outline',
   showFeatures = false,
-  onSuccess,
-  onError,
   className = ''
 }: OAuthButtonProps) {
   const [isLoading, setIsLoading] = useState(false);
@@ -57,66 +52,47 @@ export function OAuthButton({
   
   const IconComponent = iconMap[provider.icon as keyof typeof iconMap] || Mail;
 
-  const handleClick = async () => {
-    setIsLoading(true);
-    
-    try {
-      const result = await initiateOAuthFlow(provider.id, {
-        redirectTo: `${window.location.origin}/auth/callback?mode=${mode}`,
-        queryParams: {
-          mode,
-          provider: provider.id
-        }
-      });
-
-      if (result.error) {
-        throw new Error(result.error);
-      }
-
-      // OAuth flow initiated successfully
-      // User will be redirected to provider
-      onSuccess?.();
-      
-    } catch (error: any) {
-      console.error(`${provider.displayName} OAuth error:`, error);
-      onError?.(error.message || `Failed to sign in with ${provider.displayName}`);
-      setIsLoading(false);
-    }
-  };
-
   return (
     <div className={`space-y-2 ${className}`}>
-      <Button
-        variant={variant}
-        className={`
-          w-full relative h-12 font-medium transition-all duration-200
-          ${variant === 'outline' 
-            ? 'border-2 hover:bg-muted/50' 
-            : 'text-white'
-          }
-        `}
-        style={{
-          borderColor: variant === 'outline' ? provider.color : undefined,
-          backgroundColor: variant === 'default' ? provider.color : undefined,
-          color: variant === 'outline' ? provider.color : undefined
-        }}
-        onClick={handleClick}
-        disabled={isLoading}
+      <a 
+        href={`/api/auth/oauth-signin?provider=${provider.id}`}
+        onClick={() => setIsLoading(true)}
+        className="block w-full"
       >
-        {isLoading ? (
-          <Loader2 className="w-4 h-4 animate-spin mr-2" />
-        ) : (
-          <IconComponent className="w-5 h-5 mr-3" />
-        )}
-        
-        <span className="flex-1 text-left">
-          {tOAuth('continueWith')} {provider.displayName}
-        </span>
-        
-        {!isLoading && (
-          <ArrowRight className="w-4 h-4 opacity-60" />
-        )}
-      </Button>
+        <Button
+          variant={variant}
+          className={`
+            w-full relative h-12 font-medium transition-all duration-200
+            ${variant === 'outline' 
+              ? 'border-2 hover:bg-muted/50' 
+              : 'text-white'
+            }
+          `}
+          style={{
+            borderColor: variant === 'outline' ? provider.color : undefined,
+            backgroundColor: variant === 'default' ? provider.color : undefined,
+            color: variant === 'outline' ? provider.color : undefined
+          }}
+          disabled={isLoading}
+          asChild
+        >
+          <span>
+            {isLoading ? (
+              <Loader2 className="w-4 h-4 animate-spin mr-2" />
+            ) : (
+              <IconComponent className="w-5 h-5 mr-3" />
+            )}
+            
+            <span className="flex-1 text-left">
+              {tOAuth('continueWith')} {provider.displayName}
+            </span>
+            
+            {!isLoading && (
+              <ArrowRight className="w-4 h-4 opacity-60" />
+            )}
+          </span>
+        </Button>
+      </a>
 
       {showFeatures && provider.businessFeatures.length > 0 && (
         <div className="text-xs text-muted-foreground pl-3">

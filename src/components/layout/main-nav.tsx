@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils';
 import { LanguageSelector } from './language-selector';
 import { useSupabase } from '@/components/providers/supabase-provider';
 import { useEffect, useState } from 'react';
+import { OrderNotifications } from '@/components/notifications/order-notifications';
 import { 
   LayoutDashboard, 
   Home, 
@@ -211,6 +212,9 @@ export function MainNav() {
           </div>
         </div>
         <div className="flex items-center space-x-4">
+          {userRole && userRole !== 'customer' && (
+            <OrderNotifications />
+          )}
           <LanguageSelector />
           <button
             className="md:hidden p-2 hover:bg-accent rounded-md"

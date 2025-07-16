@@ -7,16 +7,16 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card';
-import { ChevronLeft, Loader2 } from 'lucide-react';
+import { Loader2 } from 'lucide-react';
 import { toast } from 'sonner';
 import { Alert, AlertDescription } from '@/components/ui/alert';
+import { BackButton } from './back-button';
 
 interface JoinAgencyFormProps {
   userId: string;
-  onBack: () => void;
 }
 
-export function JoinAgencyForm({ userId, onBack }: JoinAgencyFormProps) {
+export function JoinAgencyForm({ userId }: JoinAgencyFormProps) {
   const router = useRouter();
   const t = useTranslations('onboarding');
   const [isLoading, setIsLoading] = useState(false);
@@ -63,14 +63,7 @@ export function JoinAgencyForm({ userId, onBack }: JoinAgencyFormProps) {
     <Card>
       <CardHeader>
         <div className="flex items-center gap-2 mb-2">
-          <Button
-            variant="ghost"
-            size="icon"
-            onClick={onBack}
-            disabled={isLoading}
-          >
-            <ChevronLeft className="h-4 w-4" />
-          </Button>
+          <BackButton disabled={isLoading} />
           <CardTitle>{t('joinAgency')}</CardTitle>
         </div>
         <CardDescription>

@@ -1,6 +1,5 @@
 'use client';
 
-import { useState } from 'react';
 import { useTranslations } from 'next-intl';
 import { OAuthButton } from './oauth-button';
 import { getProvidersSorted } from '@/lib/auth/oauth/providers';
@@ -10,8 +9,6 @@ import { AlertCircle, Shield, Zap } from 'lucide-react';
 
 interface OAuthProvidersProps {
   mode: 'login' | 'signup';
-  onSuccess?: (result: any) => void;
-  onError?: (error: string) => void;
   className?: string;
   showBusinessFeatures?: boolean;
   title?: string;
@@ -21,28 +18,15 @@ interface OAuthProvidersProps {
 
 export function OAuthProviders({
   mode,
-  onSuccess,
-  onError,
   className = '',
   showBusinessFeatures = false,
   title,
   description,
   showTermsNotice = true
 }: OAuthProvidersProps) {
-  const [error, setError] = useState<string | null>(null);
   const tOAuth = useTranslations('oauth');
   const tLegal = useTranslations('legal');
   const providers = getProvidersSorted();
-
-  const handleProviderSuccess = () => {
-    setError(null);
-    onSuccess?.({ provider: 'oauth', mode });
-  };
-
-  const handleProviderError = (errorMessage: string) => {
-    setError(errorMessage);
-    onError?.(errorMessage);
-  };
 
   if (providers.length === 0) {
     return (
@@ -69,25 +53,15 @@ export function OAuthProviders({
         </div>
       )}
 
-      {/* Error Display */}
-      {error && (
-        <Alert variant="destructive">
-          <AlertCircle className="h-4 w-4" />
-          <AlertDescription>{error}</AlertDescription>
-        </Alert>
-      )}
-
       {/* OAuth Providers */}
       <div className="space-y-3">
-        {providers.map((provider, index) => (
+        {providers.map((provider) => (
           <OAuthButton
             key={provider.id}
             provider={provider}
             mode={mode}
             variant="outline"
             showFeatures={showBusinessFeatures}
-            onSuccess={handleProviderSuccess}
-            onError={handleProviderError}
           />
         ))}
       </div>

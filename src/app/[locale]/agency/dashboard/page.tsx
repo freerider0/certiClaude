@@ -7,6 +7,7 @@ import { Card } from '@/components/ui/card';
 import { getDashboardData } from './actions';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from '@/i18n/navigation';
+import { getLocale } from 'next-intl/server';
 
 function DashboardSkeleton() {
   return (
@@ -25,35 +26,32 @@ function DashboardSkeleton() {
 }
 
 export default async function AgencyDashboardPage() {
-  // Check authentication first
-  const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  
-  if (!user) {
-    redirect({ href: '/auth/login', locale: 'es' });
-  }
+  try {
+    const data = await getDashboardData();
 
-  const data = await getDashboardData();
-
-  return (
-    <div className="space-y-8">
-      <div>
-        <h1 className="text-3xl font-bold tracking-tight">Agency Dashboard</h1>
-        <p className="text-muted-foreground">
-          Welcome back! Here's an overview of your agency's performance.
-        </p>
-      </div>
-
-      <Suspense fallback={<DashboardSkeleton />}>
-        <StatsCards stats={data.stats} />
-        
-        <div className="grid gap-4 lg:grid-cols-3">
-          <EarningsChart data={data.earningsChart} />
-          <CommissionOverview agencyId={data.agencyInfo.id} />
+    return (
+      <div className="space-y-8">
+        <div>
+          <h1 className="text-3xl font-bold tracking-tight">Agency Dashboard</h1>
+          <p className="text-muted-foreground">
+            Welcome back! Here&apos;s an overview of your agency&apos;s performance.
+          </p>
         </div>
 
-        <RecentOrders orders={data.recentOrders} />
-      </Suspense>
-    </div>
-  );
+        <Suspense fallback={<DashboardSkeleton />}>
+          <StatsCards stats={data.stats} />
+          
+          <div className="grid gap-4 lg:grid-cols-3">
+            <EarningsChart data={data.earningsChart} />
+            <CommissionOverview agencyId={data.agencyInfo.id} />
+          </div>
+
+          <RecentOrders orders={data.recentOrders} />
+        </Suspense>
+      </div>
+    );
+  } catch (error) {
+    console.error('Dashboard page error:', error);
+    throw error; // Let Next.js error boundary handle it
+  }
 }

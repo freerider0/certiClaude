@@ -1,7 +1,8 @@
 import { DashboardLayout } from '@/components/layout/dashboard-layout';
-import { agencyNavItems, type NavItem } from '@/config/navigation/agency-nav';
+import { agencyNavItems } from '@/config/navigation/agency-nav';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from '@/i18n/navigation';
+import { getLocale } from 'next-intl/server';
 
 export default async function AgencyLayout({
   children,
@@ -9,29 +10,33 @@ export default async function AgencyLayout({
   children: React.ReactNode;
 }) {
   const supabase = await createClient();
+  const locale = await getLocale();
   
   // Get current user
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) {
-    redirect({ href: '/auth/login', locale: 'es' });
+    redirect({ href: '/auth/login', locale });
   }
-
-  // Get user profile with agency
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('full_name, avatar_url, agency_id')
-    .eq('id', user.id)
-    .single();
 
   // Check if user belongs to an agency
-  if (!profile?.agency_id) {
-    redirect({ href: '/onboarding', locale: 'es' });
+  const { data: agencyUser } = await supabase
+    .from('agency_users')
+    .select('agency_id')
+    .eq('user_id', user.id)
+    .limit(1)
+    .maybeSingle();
+
+  // Redirect to onboarding if user has no agency association
+  if (!agencyUser?.agency_id) {
+    console.log('User has no agency association');
+    redirect({ href: '/onboarding', locale });
   }
 
+  // Get user metadata from auth.users
   const userData = {
-    name: profile?.full_name || user.email?.split('@')[0] || 'Agency User',
+    name: user.user_metadata?.full_name || user.email?.split('@')[0] || 'Agency User',
     email: user.email || '',
-    image: profile?.avatar_url || undefined,
+    image: user.user_metadata?.avatar_url || undefined,
   };
 
 

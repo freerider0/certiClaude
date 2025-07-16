@@ -59,18 +59,19 @@ export async function POST(request: Request) {
       phone: contactPhone,
     });
 
-    // Update the user's profile with full information
-    const { error: profileError } = await supabase
-      .from('profiles')
-      .update({
-        full_name: fullName,
-        role: 'agency', // This user will be the agency owner
-      })
-      .eq('id', userId);
+    // Update the user's metadata in auth.users
+    const { error: userUpdateError } = await supabase.auth.admin.updateUserById(
+      userId,
+      {
+        user_metadata: {
+          full_name: fullName,
+        }
+      }
+    );
 
-    if (profileError) {
-      console.error('Profile update error:', profileError);
-      throw new Error('Failed to update profile');
+    if (userUpdateError) {
+      console.error('User metadata update error:', userUpdateError);
+      // Continue anyway as this is not critical
     }
 
     // Create the agency record

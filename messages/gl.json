@@ -25,7 +25,10 @@
     "signUp": "Rexistrarse",
     "signIn": "Entrar",
     "alreadyHaveAccount": "Xa tes unha conta?",
-    "dontHaveAccount": "Non tes unha conta?"
+    "dontHaveAccount": "Non tes unha conta?",
+    "authError": "Erro de autenticación",
+    "authErrorDescription": "Houbo un problema ao iniciar sesión. Por favor, téntao de novo.",
+    "backToLogin": "Volver ao inicio de sesión"
   },
   "nav": {
     "dashboard": "Panel",
@@ -65,7 +68,22 @@
   "home": {
     "title": "CertiFast",
     "subtitle": "Plataforma profesional para axencias inmobiliarias",
-    "description": "Xera certificados enerxéticos e crea planos profesionais."
+    "description": "Xera certificados enerxéticos e crea planos profesionais.",
+    "features": {
+      "ceeGeneration": "Xeración oficial de certificados CEE",
+      "floorPlans": "Creación de planos profesionais",
+      "automatedReports": "Xeración automatizada de informes",
+      "multiLanguage": "Soporte multiidioma"
+    },
+    "testimonial": {
+      "quote": "CertiFast revolucionou o noso proceso de certificación. O que solía tomar días agora toma minutos.",
+      "author": "María González",
+      "company": "CEO, Inmobiliaria Barcelona"
+    },
+    "cta": {
+      "getStarted": "Comezar",
+      "learnMore": "Saber máis"
+    }
   },
   "agencyDashboard": {
     "stats": {
@@ -124,5 +142,33 @@
       "viewDetails": "Ver Detalles",
       "managePricing": "Xestionar Prezos"
     }
+  },
+  "onboarding": {
+    "welcome": "Benvido a CertiFast",
+    "getStarted": "Configuremos a túa axencia",
+    "howToProceed": "Como queres continuar?",
+    "createAgency": "Crear Nova Axencia",
+    "createAgencyDescription": "Comeza dende cero coa túa propia axencia e convida membros do equipo",
+    "joinAgency": "Unirse a Axencia Existente",
+    "joinAgencyDescription": "Únete a unha axencia usando un código de invitación do teu administrador",
+    "agencyInfo": "Información da Axencia",
+    "agencyName": "Nome da Axencia",
+    "contactPhone": "Teléfono de Contacto",
+    "address": "Enderezo",
+    "streetAddress": "Enderezo",
+    "city": "Cidade",
+    "postalCode": "Código Postal",
+    "province": "Provincia",
+    "creatingAgency": "Creando Axencia...",
+    "agencyCreated": "Axencia creada con éxito!",
+    "redirectingToDashboard": "Redirixindo ao teu panel de control...",
+    "invitationCode": "Código de Invitación",
+    "enterInviteCode": "Introduce o código de 6 díxitos",
+    "askAdminForCode": "Pídelle ao teu administrador de axencia un código de invitación. Poden xerar un dende a súa configuración.",
+    "joiningAgency": "Unindose á Axencia...",
+    "joinedAgency": "Unícheste á axencia con éxito!",
+    "welcomeToAgency": "Benvido a",
+    "invalidInviteCode": "Código de invitación inválido",
+    "alreadyMember": "Xa es membro desta axencia"
   }
 }

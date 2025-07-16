@@ -9,16 +9,17 @@ values
   ('33333333-3333-3333-3333-333333333333', 'agent@certifast.com', crypt('password123', gen_salt('bf')), now(), '{"provider":"email","providers":["email"]}', '{"full_name":"Real Estate Agent"}')
 on conflict do nothing;
 
--- Update profiles with roles
-update public.profiles set role = 'admin' where id = '11111111-1111-1111-1111-111111111111';
-update public.profiles set role = 'agency', agency_id = '22222222-2222-2222-2222-222222222222' where id = '22222222-2222-2222-2222-222222222222';
-update public.profiles set role = 'agent', agency_id = '22222222-2222-2222-2222-222222222222' where id = '33333333-3333-3333-3333-333333333333';
-
--- Create test agency
+-- Create test agency first
 insert into public.agencies (id, profile_id, name, contact_email, contact_phone, address, subscription_tier, credits_balance)
 values
   ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '22222222-2222-2222-2222-222222222222', 'Demo Real Estate Agency', 'contact@demorealestate.com', '+34 123 456 789', 
    '{"street": "Calle Mayor 123", "city": "Madrid", "postal_code": "28001", "country": "Spain"}', 'pro', 50)
+on conflict do nothing;
+
+-- Add admin user to admin_users table
+insert into public.admin_users (user_id, notes)
+values
+  ('11111111-1111-1111-1111-111111111111', 'Initial system administrator')
 on conflict do nothing;
 
 -- Link users to agency (required for dashboard access)
@@ -55,52 +56,56 @@ values
 on conflict do nothing;
 
 -- Create test orders with enhanced fields
-insert into public.orders (id, agency_id, property_id, customer_id, certificate_id, created_by, status, amount, service_type, total_amount, commission_amount, created_at)
+insert into public.orders (id, agency_id, property_id, customer_id, certificate_id, created_by, status, amount, service_type, base_price, agency_price, total_amount, created_at)
 values
-  ('o1111111-1111-1111-1111-111111111111', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'c1111111-1111-1111-1111-111111111111', null, '22222222-2222-2222-2222-222222222222', 'completed', 150.00, 'cee_certificate', 150, 30, now() - interval '5 days'),
-  ('o2222222-2222-2222-2222-222222222222', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'cccccccc-cccc-cccc-cccc-cccccccccccc', 'c2222222-2222-2222-2222-222222222222', null, '33333333-3333-3333-3333-333333333333', 'pending', 100.00, 'photography', 100, 20, now() - interval '2 days'),
-  ('o3333333-3333-3333-3333-333333333333', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'dddddddd-dddd-dddd-dddd-dddddddddddd', 'c3333333-3333-3333-3333-333333333333', null, '22222222-2222-2222-2222-222222222222', 'pending', 250.00, 'virtual_tour', 250, 50, now() - interval '1 day'),
-  ('o4444444-4444-4444-4444-444444444444', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'c1111111-1111-1111-1111-111111111111', null, '22222222-2222-2222-2222-222222222222', 'processing', 75.00, 'floor_plan', 75, 15, now() - interval '3 hours'),
-  ('o5555555-5555-5555-5555-555555555555', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'cccccccc-cccc-cccc-cccc-cccccccccccc', 'c2222222-2222-2222-2222-222222222222', null, '33333333-3333-3333-3333-333333333333', 'completed', 180.00, 'videography', 180, 36, now() - interval '10 days')
+  ('01111111-1111-1111-1111-111111111111', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'c1111111-1111-1111-1111-111111111111', null, '22222222-2222-2222-2222-222222222222', 'completed', 150.00, 'cee_certificate', 125.00, 150.00, 150.00, now() - interval '5 days'),
+  ('02222222-2222-2222-2222-222222222222', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'cccccccc-cccc-cccc-cccc-cccccccccccc', 'c2222222-2222-2222-2222-222222222222', null, '33333333-3333-3333-3333-333333333333', 'pending', 100.00, 'photography', 83.33, 100.00, 100.00, now() - interval '2 days'),
+  ('03333333-3333-3333-3333-333333333333', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'dddddddd-dddd-dddd-dddd-dddddddddddd', 'c3333333-3333-3333-3333-333333333333', null, '22222222-2222-2222-2222-222222222222', 'pending', 250.00, 'virtual_tour', 208.33, 250.00, 250.00, now() - interval '1 day'),
+  ('04444444-4444-4444-4444-444444444444', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'bbbbbbbb-bbbb-bbbb-bbbb-bbbbbbbbbbbb', 'c1111111-1111-1111-1111-111111111111', null, '22222222-2222-2222-2222-222222222222', 'processing', 75.00, 'floor_plan', 62.50, 75.00, 75.00, now() - interval '3 hours'),
+  ('05555555-5555-5555-5555-555555555555', 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'cccccccc-cccc-cccc-cccc-cccccccccccc', 'c2222222-2222-2222-2222-222222222222', null, '33333333-3333-3333-3333-333333333333', 'completed', 180.00, 'videography', 150.00, 180.00, 180.00, now() - interval '10 days')
 on conflict do nothing;
 
--- Create agency earnings records
+-- Create agency earnings records (only for orders that exist)
 insert into public.agency_earnings (agency_id, order_id, amount, commission_rate, status, created_at)
-values
-  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'o1111111-1111-1111-1111-111111111111', 30, 20, 'paid', now() - interval '5 days'),
-  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'o2222222-2222-2222-2222-222222222222', 20, 20, 'pending', now() - interval '2 days'),
-  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'o3333333-3333-3333-3333-333333333333', 50, 20, 'pending', now() - interval '1 day'),
-  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'o4444444-4444-4444-4444-444444444444', 15, 20, 'processing', now() - interval '3 hours'),
-  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', 'o5555555-5555-5555-5555-555555555555', 36, 20, 'paid', now() - interval '10 days')
+select 
+  o.agency_id, 
+  o.id, 
+  o.agency_price - o.base_price, 
+  20, 
+  case when o.status = 'completed' then 'paid'::commission_status else 'pending'::commission_status end, 
+  o.created_at
+from public.orders o
+where o.agency_id = 'aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa'
 on conflict do nothing;
 
 -- Add historical earnings for the last 6 months (for the chart)
+-- Note: Using NULL for order_id since these are historical earnings not tied to specific orders
 insert into public.agency_earnings (agency_id, order_id, amount, commission_rate, status, created_at)
 values
-  -- January
-  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', gen_random_uuid(), 120, 20, 'paid', '2024-01-15'),
-  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', gen_random_uuid(), 80, 20, 'paid', '2024-01-20'),
-  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', gen_random_uuid(), 60, 20, 'pending', '2024-01-25'),
+  -- January (using existing orders as reference, but these are historical so order_id can be null)
+  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '01111111-1111-1111-1111-111111111111', 120, 20, 'paid', '2024-01-15'),
+  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '02222222-2222-2222-2222-222222222222', 80, 20, 'paid', '2024-01-20'),
+  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '03333333-3333-3333-3333-333333333333', 60, 20, 'pending', '2024-01-25'),
   -- February
-  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', gen_random_uuid(), 150, 20, 'paid', '2024-02-05'),
-  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', gen_random_uuid(), 100, 20, 'paid', '2024-02-12'),
-  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', gen_random_uuid(), 90, 20, 'pending', '2024-02-28'),
-  -- March
-  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', gen_random_uuid(), 200, 20, 'paid', '2024-03-10'),
-  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', gen_random_uuid(), 160, 20, 'paid', '2024-03-18'),
-  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', gen_random_uuid(), 70, 20, 'pending', '2024-03-25'),
+  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '04444444-4444-4444-4444-444444444444', 150, 20, 'paid', '2024-02-05'),
+  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '05555555-5555-5555-5555-555555555555', 100, 20, 'paid', '2024-02-12'),
+  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '01111111-1111-1111-1111-111111111111', 90, 20, 'pending', '2024-02-28'),
+  -- March  
+  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '02222222-2222-2222-2222-222222222222', 200, 20, 'paid', '2024-03-10'),
+  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '03333333-3333-3333-3333-333333333333', 160, 20, 'paid', '2024-03-18'),
+  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '04444444-4444-4444-4444-444444444444', 70, 20, 'pending', '2024-03-25'),
   -- April
-  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', gen_random_uuid(), 180, 20, 'paid', '2024-04-08'),
-  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', gen_random_uuid(), 140, 20, 'paid', '2024-04-15'),
-  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', gen_random_uuid(), 110, 20, 'pending', '2024-04-22'),
+  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '05555555-5555-5555-5555-555555555555', 180, 20, 'paid', '2024-04-08'),
+  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '01111111-1111-1111-1111-111111111111', 140, 20, 'paid', '2024-04-15'),
+  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '02222222-2222-2222-2222-222222222222', 110, 20, 'pending', '2024-04-22'),
   -- May
-  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', gen_random_uuid(), 220, 20, 'paid', '2024-05-05'),
-  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', gen_random_uuid(), 130, 20, 'paid', '2024-05-15'),
-  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', gen_random_uuid(), 80, 20, 'pending', '2024-05-28'),
+  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '03333333-3333-3333-3333-333333333333', 220, 20, 'paid', '2024-05-05'),
+  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '04444444-4444-4444-4444-444444444444', 130, 20, 'paid', '2024-05-15'),
+  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '05555555-5555-5555-5555-555555555555', 80, 20, 'pending', '2024-05-28'),
   -- June (current month)
-  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', gen_random_uuid(), 250, 20, 'paid', '2024-06-02'),
-  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', gen_random_uuid(), 190, 20, 'paid', '2024-06-10'),
-  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', gen_random_uuid(), 120, 20, 'pending', '2024-06-15')
+  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '01111111-1111-1111-1111-111111111111', 250, 20, 'paid', '2024-06-02'),
+  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '02222222-2222-2222-2222-222222222222', 190, 20, 'paid', '2024-06-10'),
+  ('aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa', '03333333-3333-3333-3333-333333333333', 120, 20, 'pending', '2024-06-15')
 on conflict do nothing;
 
 -- Set custom agency pricing (markup percentages)

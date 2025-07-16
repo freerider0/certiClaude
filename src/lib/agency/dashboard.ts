@@ -58,18 +58,21 @@ export async function getAgencyDashboardData(userId?: string): Promise<Dashboard
       currentUserId = user.id;
     }
 
-    // Get the agency ID for the current user
-    const { data: agencyUser, error: agencyError } = await supabase
+    // Get the agency ID from agency_users table
+    const { data: agencyUser, error: agencyUserError } = await supabase
       .from('agency_users')
       .select('agency_id, role')
       .eq('user_id', currentUserId)
-      .single();
+      .limit(1)
+      .maybeSingle();
 
-    if (agencyError || !agencyUser) {
-      throw new Error('Agency not found');
+    if (agencyUserError || !agencyUser) {
+      console.error('Agency user error:', agencyUserError);
+      throw new Error('User is not associated with an agency');
     }
 
     const agencyId = agencyUser.agency_id;
+    const userRole = agencyUser.role;
 
     // Fetch dashboard data in parallel
     const [
@@ -171,31 +174,36 @@ export async function getAgencyDashboardData(userId?: string): Promise<Dashboard
       earningsChart,
       agencyInfo: {
         id: agencyId,
-        role: agencyUser.role
+        role: userRole
       }
     };
 
   } catch (error) {
     console.error('Dashboard data fetch error:', error);
     
-    // Return mock data for development
+    // Log specific error details for debugging
+    if (error instanceof Error) {
+      console.error('Error details:', {
+        message: error.message,
+        stack: error.stack,
+        userId: currentUserId,
+        timestamp: new Date().toISOString()
+      });
+    }
+    
+    // Return mock data for development with error indication
     return {
       stats: {
-        revenue: { value: 12345, trend: '+12%', currency: '€' },
-        properties: { value: 24, trend: '+3' },
-        pendingOrders: { value: 7, trend: '-2' },
-        customers: { value: 156, trend: '+8' }
+        revenue: { value: 0, trend: 'Error', currency: '€' },
+        properties: { value: 0, trend: 'Error' },
+        pendingOrders: { value: 0, trend: 'Error' },
+        customers: { value: 0, trend: 'Error' }
       },
       recentOrders: [],
       earningsChart: [
-        { month: 'Jan', total: 2400, paid: 1800, pending: 600 },
-        { month: 'Feb', total: 3200, paid: 2400, pending: 800 },
-        { month: 'Mar', total: 2800, paid: 2100, pending: 700 },
-        { month: 'Apr', total: 3600, paid: 2700, pending: 900 },
-        { month: 'May', total: 3100, paid: 2300, pending: 800 },
-        { month: 'Jun', total: 4200, paid: 3150, pending: 1050 }
+        { month: 'Error', total: 0, paid: 0, pending: 0 }
       ],
-      agencyInfo: { id: '1', role: 'agency_owner' }
+      agencyInfo: { id: 'error', role: 'unknown' }
     };
   }
 }
